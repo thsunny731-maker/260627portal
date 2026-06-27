@@ -55,7 +55,7 @@ export default function Library() {
       setUnlockState(true);
       setIsAuthModalOpen(false);
     } else {
-      setAuthError('Invalid admin code');
+      setAuthError('잘못된 관리자 코드입니다');
     }
   };
 
@@ -125,17 +125,17 @@ export default function Library() {
       
       {apps.length === 0 ? (
         <div className="glass-panel" style={{ textAlign: 'center', padding: '64px 24px', margin: '32px auto', maxWidth: '600px' }}>
-          <h2 style={{ fontSize: '24px', marginBottom: '8px' }}>No apps found</h2>
-          <p style={{ color: 'var(--text-secondary)' }}>Get started by adding an app or importing a backup.</p>
+          <h2 style={{ fontSize: '24px', marginBottom: '8px' }}>앱을 찾을 수 없습니다</h2>
+          <p style={{ color: 'var(--text-secondary)' }}>앱을 추가하거나 백업 데이터를 가져와 시작하세요.</p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginTop: '32px' }}>
-            <button className="btn-primary" onClick={handleAdminClick}>Add App</button>
-            <button className="btn-secondary" onClick={() => window.location.hash = '#/settings'}>Go to Settings</button>
+            <button className="btn-primary" onClick={handleAdminClick}>앱 추가</button>
+            <button className="btn-secondary" onClick={() => window.location.hash = '#/settings'}>설정으로 이동</button>
           </div>
         </div>
       ) : filteredApps.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '64px 0', color: 'var(--text-secondary)' }}>
-          <h2>No results</h2>
-          <button className="btn-secondary" style={{ marginTop: '16px' }} onClick={() => { setSearch(''); setCategory('All'); setShowArchived(true); }}>Clear filters</button>
+          <h2>검색 결과 없음</h2>
+          <button className="btn-secondary" style={{ marginTop: '16px' }} onClick={() => { setSearch(''); setCategory('All'); setShowArchived(true); }}>필터 초기화</button>
         </div>
       ) : (
         <div style={{
@@ -151,27 +151,27 @@ export default function Library() {
       )}
 
       {isAuthModalOpen && (
-        <Modal title="Admin Unlock" onClose={() => setIsAuthModalOpen(false)}>
+        <Modal title="관리자 잠금 해제" onClose={() => setIsAuthModalOpen(false)}>
           <form onSubmit={handleUnlock} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <input 
               type="password" 
               autoFocus
               value={authCode} 
               onChange={e => setAuthCode(e.target.value)} 
-              placeholder="Enter admin code" 
+              placeholder="관리자 코드 입력" 
               required
             />
             {authError && <div style={{ color: 'var(--danger-color)', fontSize: '14px' }}>{authError}</div>}
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-              <button type="button" className="btn-secondary" onClick={() => setIsAuthModalOpen(false)}>Cancel</button>
-              <button type="submit" className="btn-primary">Unlock</button>
+              <button type="button" className="btn-secondary" onClick={() => setIsAuthModalOpen(false)}>취소</button>
+              <button type="submit" className="btn-primary">잠금 해제</button>
             </div>
           </form>
         </Modal>
       )}
 
       {editingApp && (
-        <Modal title={editingApp.id ? 'Edit App' : 'Add App'} onClose={() => setEditingApp(null)}>
+        <Modal title={editingApp.id ? '앱 수정' : '앱 추가'} onClose={() => setEditingApp(null)}>
           <AppForm 
             initialData={editingApp} 
             onSave={handleSaveApp} 

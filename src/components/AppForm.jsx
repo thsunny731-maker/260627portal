@@ -70,14 +70,14 @@ export default function AppForm({ initialData, onSave, onCancel, existingCategor
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <div>
-        <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px', fontWeight: '500' }}>Category *</label>
+        <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px', fontWeight: '500' }}>카테고리 *</label>
         <input 
           type="text" 
           value={category} 
           onChange={e => setCategory(e.target.value)} 
           list="category-suggestions"
           required 
-          placeholder="e.g. Learning, Utilities"
+          placeholder="예: 학습, 유틸리티"
         />
         <datalist id="category-suggestions">
           {existingCategories.map(c => <option key={c} value={c} />)}
@@ -96,40 +96,40 @@ export default function AppForm({ initialData, onSave, onCancel, existingCategor
       </div>
 
       <div>
-        <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px', fontWeight: '500' }}>Title *</label>
+        <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px', fontWeight: '500' }}>제목 *</label>
         <input 
           type="text" 
           value={title} 
           onChange={e => setTitle(e.target.value)} 
           required 
-          placeholder="App Name"
+          placeholder="앱 이름"
         />
       </div>
 
       <div>
-        <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px', fontWeight: '500' }}>Thumbnail</label>
+        <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px', fontWeight: '500' }}>썸네일 (Thumbnail)</label>
         <input type="file" accept="image/*" onChange={handleFileChange} />
         {thumbnail && (
           <div style={{ marginTop: '8px', border: '1px solid var(--border-color)', padding: '4px', borderRadius: '4px', display: 'inline-block' }}>
-            <img src={thumbnail.value} alt="Preview" style={{ height: '80px', objectFit: 'contain' }} />
-            <button type="button" className="btn-secondary" style={{ display: 'block', width: '100%', padding: '4px', fontSize: '12px', marginTop: '4px' }} onClick={() => setThumbnail(null)}>Remove</button>
+            <img src={thumbnail.value} alt="미리보기" style={{ height: '80px', objectFit: 'contain' }} />
+            <button type="button" className="btn-secondary" style={{ display: 'block', width: '100%', padding: '4px', fontSize: '12px', marginTop: '4px' }} onClick={() => setThumbnail(null)}>삭제</button>
           </div>
         )}
       </div>
 
       <div>
-        <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px', fontWeight: '500' }}>Notes</label>
+        <label style={{ display: 'block', fontSize: '14px', marginBottom: '4px', fontWeight: '500' }}>메모</label>
         <textarea 
           value={notes} 
           onChange={e => setNotes(e.target.value)} 
           rows={3} 
-          placeholder="Optional notes"
+          placeholder="선택 사항"
         />
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
-        <button type="button" className="btn-secondary" onClick={onCancel}>Cancel</button>
-        <button type="submit" className="btn-primary">Save</button>
+        <button type="button" className="btn-secondary" onClick={onCancel}>취소</button>
+        <button type="submit" className="btn-primary">저장</button>
       </div>
     </form>
   );

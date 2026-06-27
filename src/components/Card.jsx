@@ -33,7 +33,7 @@ export default function Card({ app, onEdit, onArchiveRestore, onOpen }) {
           />
         ) : (
           <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
-            No Image
+            이미지 없음
           </div>
         )}
       </div>
@@ -54,13 +54,13 @@ export default function Card({ app, onEdit, onArchiveRestore, onOpen }) {
                 style={{ position: 'absolute', right: 0, top: '100%', padding: '4px', display: 'flex', flexDirection: 'column', minWidth: '120px', zIndex: 20 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <button className="btn-secondary" style={{ border: 'none', justifyContent: 'flex-start' }} onClick={() => { handleOpen(); setShowMenu(false); }}>Open in new tab</button>
-                <button className="btn-secondary" style={{ border: 'none', justifyContent: 'flex-start' }} onClick={handleCopy}>Copy link</button>
+                <button className="btn-secondary" style={{ border: 'none', justifyContent: 'flex-start' }} onClick={() => { handleOpen(); setShowMenu(false); }}>새 탭에서 열기</button>
+                <button className="btn-secondary" style={{ border: 'none', justifyContent: 'flex-start' }} onClick={handleCopy}>링크 복사</button>
                 {unlocked && (
                   <>
-                    <button className="btn-secondary" style={{ border: 'none', justifyContent: 'flex-start' }} onClick={() => { onEdit(app); setShowMenu(false); }}>Edit</button>
+                    <button className="btn-secondary" style={{ border: 'none', justifyContent: 'flex-start' }} onClick={() => { onEdit(app); setShowMenu(false); }}>수정</button>
                     <button className="btn-secondary" style={{ border: 'none', justifyContent: 'flex-start', color: 'var(--danger-color)' }} onClick={() => { onArchiveRestore(app); setShowMenu(false); }}>
-                      {app.archived ? 'Restore' : 'Archive'}
+                      {app.archived ? '복구' : '보관'}
                     </button>
                   </>
                 )}
@@ -78,7 +78,7 @@ export default function Card({ app, onEdit, onArchiveRestore, onOpen }) {
 
         <div style={{ marginTop: 'auto', paddingTop: '12px' }}>
           <button className="btn-primary" style={{ width: '100%' }} onClick={handleOpen}>
-            Open
+            열기
           </button>
         </div>
       </div>
