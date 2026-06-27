@@ -1,0 +1,54 @@
+import React, { useEffect, useRef } from 'react';
+import { getUnlockState, setUnlockState, hasAdminCode } from '../services/auth';
+
+export default function Header({ search, setSearch, onAddClick, onAdminClick }) {
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === '/' && document.activeElement !== searchRef.current) {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const unlocked = getUnlockState();
+
+  return (
+    <header className="glass-panel" style={{ display: 'flex', gap: '16px', alignItems: 'center', margin: '16px 0', padding: '16px 24px', position: 'sticky', top: '16px', zIndex: 10 }}>
+      <h1 style={{ margin: 0, fontSize: '24px', fontWeight: '700', flexShrink: 0 }}>Portal</h1>
+      
+      <div style={{ flexGrow: 1, position: 'relative' }}>
+        <input 
+          ref={searchRef}
+          type="text" 
+          placeholder="Search by title, url, category... (Press / to focus)"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{ width: '100%', maxWidth: '600px', padding: '12px 16px', borderRadius: 'var(--radius-full)' }}
+        />
+      </div>
+
+      <div style={{ display: 'flex', gap: '12px', flexShrink: 0 }}>
+        {unlocked && (
+          <button className="btn-primary hover-lift" onClick={onAddClick}>
+            + Add App
+          </button>
+        )}
+        <button 
+          className="btn-secondary hover-lift" 
+          onClick={onAdminClick}
+          style={{ color: unlocked ? 'var(--primary-color)' : 'var(--text-secondary)' }}
+        >
+          {unlocked ? '🔓 Admin Unlocked' : '🔒 Admin Locked'}
+        </button>
+        <button className="btn-icon" onClick={() => window.location.hash = '#/settings'} title="Settings">
+          ⚙️
+        </button>
+      </div>
+    </header>
+  );
+}
