@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { hasAdminCode, setAdminCode, verifyAdminCode, getUnlockState, setUnlockState, subscribeUnlock } from '../services/auth';
+import { getApps } from '../services/db';
 
 export default function Settings() {
   const [hasCode, setHasCode] = useState(false);
@@ -59,6 +60,22 @@ export default function Settings() {
     setMsg('관리자 코드가 비활성화되었습니다.');
   };
 
+  const handleExportData = async () => {
+    try {
+      const apps = await getApps();
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(apps, null, 2));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", "apps.json");
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+      setMsg('앱 데이터가 성공적으로 내보내졌습니다. 다운로드된 파일을 src/data/apps.json 으로 덮어씌워주세요.');
+    } catch (e) {
+      setMsg('데이터 내보내기 실패: ' + e.message);
+    }
+  };
+
   if (hasCode && !unlocked) {
     return (
       <div style={{ padding: '24px 0', maxWidth: '800px', margin: '0 auto', width: '100%' }}>
@@ -109,9 +126,24 @@ export default function Settings() {
             <button type="submit" className="btn-primary">코드 저장</button>
             {hasCode && <button type="button" className="btn-secondary" onClick={handleDisableCode}>비활성화</button>}
           </div>
-          {msg && <div style={{ color: 'var(--primary-color)', fontSize: '14px', marginTop: '8px' }}>{msg}</div>}
         </form>
       </div>
+
+      {unlocked && (
+        <div className="glass-panel" style={{ marginBottom: '24px' }}>
+          <h2 style={{ fontSize: '20px', marginBottom: '16px', fontWeight: '600' }}>데이터 관리</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '400px' }}>
+            <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
+              새로 추가한 앱을 다른 사용자나 다른 기기에서도 볼 수 있게 하려면, 아래 버튼을 눌러 apps.json 파일을 다운로드한 뒤 프로젝트의 <code>src/data/apps.json</code> 파일에 덮어씌우고 깃허브에 푸시하세요.
+            </p>
+            <button type="button" className="btn-secondary" onClick={handleExportData} style={{ width: 'fit-content' }}>
+              앱 데이터 내보내기 (apps.json)
+            </button>
+          </div>
+        </div>
+      )}
+      
+      {msg && <div style={{ color: 'var(--primary-color)', fontSize: '14px', marginTop: '8px', padding: '16px', borderRadius: '8px', background: 'var(--bg-surface)' }}>{msg}</div>}
     </div>
   );
 }
